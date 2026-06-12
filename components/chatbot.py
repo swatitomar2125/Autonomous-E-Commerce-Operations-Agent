@@ -1,5 +1,3 @@
-# AI Assistant Panel — now with Voice Input + Voice Output
-
 
 import streamlit as st
 from components.voice_assistant import render_voice_input, speak_text, render_voice_status
@@ -81,25 +79,60 @@ def render_chatbot():
         header_left, header_right = st.columns([2, 1])
 
         with header_left:
-            st.html("""
-            <div style="margin-bottom: 10px;">
-                <div style="font-size:16px; font-weight:bold; color:#ffffff; margin-bottom:2px;">
-                    👋 Hi Admin!
-                </div>
-                <div style="font-size:12px; color:#9ca3af;">
-                    E-Commerce Operations Agent
-                </div>
-            </div>
-            """)
+            st.html(
+                '<div style="margin-bottom: 15px;">'
+                '<div style="font-size:16px; font-weight:bold; color:#ffffff; margin-bottom:2px;">👋 Hi Admin!</div>'
+                '<div style="font-size:13px; color:#9ca3af; margin-bottom:12px;">I\'m your E-Commerce Operations Agent. How can I help you today?</div>'
+                '</div>'
+            )
 
         with header_right:
-            # Voice ON/OFF toggle button
             voice_label = "🔇 Voice" if st.session_state.voice_mode else "🔊 Voice"
             voice_type  = "primary"   if st.session_state.voice_mode else "secondary"
 
             if st.button(voice_label, key="voice_toggle_btn", type=voice_type, use_container_width=True):
                 st.session_state.voice_mode = not st.session_state.voice_mode
                 st.rerun()
+
+        
+        # Injected CSS to style standard Streamlit buttons into colored, left-aligned card blocks
+        st.html("""
+        <style>
+            div[data-testid="stVerticalBlock"] > div:has(button[key^="qa_btn_"]) button {
+                text-align: left !important;
+                justify-content: flex-start !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                border: none !important;
+                padding: 10px 14px !important;
+                border-radius: 8px !important;
+                color: #ffffff !important;
+                transition: transform 0.1s ease, opacity 0.1s ease;
+                margin-bottom: -4px;
+            }
+            div[data-testid="stVerticalBlock"] > div:has(button[key^="qa_btn_"]) button:hover {
+                opacity: 0.9;
+                transform: scale(1.01);
+            }
+        </style>
+        """)
+
+        # Data layout matching icons, exact background colors, and active prompt payloads
+        quick_actions = [
+            {"label": "🔮 &nbsp; Find delayed orders", "bg": "#312e81", "text": "Find delayed orders and escalate critical ones."},
+            {"label": "🗂️ &nbsp; Analyze refund complaints", "bg": "#991b1b", "text": "Analyze refund complaints data."},
+            {"label": "⚡ &nbsp; Show SLA violations", "bg": "#065f46", "text": "Show SLA violations from this week."},
+            {"label": "📄 &nbsp; Generate weekly report", "bg": "#0369a1", "text": "Generate weekly operations report."},
+            {"label": "📦 &nbsp; Find low stock items", "bg": "#92400e", "text": "Find low stock items and safety stock variations."}
+        ]
+
+        # Render each button styled cleanly with its custom container color
+        for idx, action in enumerate(quick_actions):
+            st.html(f"<style>button[key='qa_btn_{idx}'] {{ background-color: {action['bg']} !important; }}</style>")
+            if st.button(action["label"], key=f"qa_btn_{idx}", use_container_width=True):
+                _handle_new_message(action["text"])
+
+        st.html("<hr style='border-color: #1f2937; margin: 16px 0;'>")
 
         #  Voice status indicator 
         if st.session_state.voice_mode:

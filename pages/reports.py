@@ -7,22 +7,39 @@ def render_reports():
     st.title("📊 Reports")
 
     weekly = ReportService.weekly_report()
-
     monthly = ReportService.monthly_report()
 
-    c1, c2 = st.columns(2)
+    st.subheader("Weekly Report")
 
-    with c1:
+    cols = st.columns(4)
 
-        st.subheader("Weekly Report")
+    items = list(weekly.items())
 
-        st.json(weekly)
+    for col, (key, value) in zip(cols, items):
 
-    with c2:
+        with col:
 
-        st.subheader("Monthly Report")
+            st.metric(
+                label=key,
+                value=value
+            )
 
-        st.json(monthly)
+    st.divider()
+
+    st.subheader("Monthly Report")
+
+    cols = st.columns(4)
+
+    items = list(monthly.items())
+
+    for col, (key, value) in zip(cols, items):
+
+        with col:
+
+            st.metric(
+                label=key,
+                value=value
+            )
 
     st.download_button(
         "Download Report",

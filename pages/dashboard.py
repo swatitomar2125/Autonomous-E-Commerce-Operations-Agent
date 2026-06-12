@@ -1,5 +1,5 @@
 import streamlit as st
-import textwrap  # 🚀 Added to clear out the markdown-breaking tabs/spaces
+import textwrap  
 
 from services.api_client import MockAPIClient
 from services.workflow_service import WorkflowService
@@ -284,19 +284,3 @@ def render_dashboard():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ==================================================
-    # FOOTER SUMMARY
-    # ==================================================
-
-    # summary = WorkflowService.workflow_summary()
-
-    # m1, m2, m3, m4 = st.columns(4)
-
-    # with m1:
-    #     st.metric("Completed Workflows", summary["completed"])
-    # with m2:
-    #     st.metric("Running", summary["running"])
-    # with m3:
-    #     st.metric("Failed", summary["failed"])
-    # with m4:
-    #     st.metric("Success Rate", f"{summary['success_rate']}%")

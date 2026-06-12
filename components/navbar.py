@@ -14,7 +14,6 @@ def nav_button(label):
 def render_sidebar():
 
     with st.sidebar:
-        # 🚀 FIX: Swapped st.markdown for st.html to ignore indentation rules
         st.html("""
         <div class="sidebar-brand">
             <div class="brand-icon">🤖</div>
@@ -29,14 +28,14 @@ def render_sidebar():
         </div>
         """)
 
-        # 🚀 FIX: Swapped inline markdowns for st.html
+        
         st.html("<div class='menu-section'>MAIN</div>")
 
         nav_button("Dashboard")
 
         st.html("<div class='menu-section'>WORKFLOWS</div>")
 
-        nav_button(" 🚚 Delayed Orders")
+        nav_button("Delayed Orders")
         nav_button("Refund Complaints")
         nav_button("SLA Violations")
         nav_button("Inventory Alerts")
@@ -56,6 +55,10 @@ def render_sidebar():
         nav_button("Reports")
         nav_button("Trends")
         nav_button("AI Insights")
+
+        st.html("<div class='menu-section'>CONFIGURATION</div>")
+
+        nav_button("Policies (RAG)")
 
         st.html("<br>")
 
